@@ -1,0 +1,56 @@
+[
+  {
+    "url": "https://aiven.io/free-mysql-database",
+    "name": "Always-Free MySQL Database Hosting (Fully Managed)",
+    "snippet": "Deploy a fully managed, always-free MySQL database in minutes. Includes 1GB storage, 1GB RAM, and automated backups. No credit card required. Start now!",
+    "host_name": "aiven.io",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/mysql/comments/1ezmhbz/aivenio_free_tier_for_hosting_a_mysql_server",
+    "name": "aiven.io free tier for hosting a mysql server",
+    "snippet": "Free plan features and limitations ​ · No VPC peering · No external service integrations · No forking · For PostgreSQL: no connection pooling. Read more",
+    "host_name": "www.reddit.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://aiven.io/free-tier",
+    "name": "Free Cloud Database & Streaming: Kafka, PG & OpenSearch",
+    "snippet": "Always free, no credit card required . The Free Tier gives you always-on, managed infrastructure for learning, building prototypes, and running small workloads. ...",
+    "host_name": "aiven.io",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://hostadvice.com/mysql-hosting/free",
+    "name": "9 Best Free MySQL Hosting Providers (Aug 2026)",
+    "snippet": "Mar 25, 2026 — Hosting.com's Free MySQL option targets students, hobbyists, and early-stage prototypes that need a no-cost database to get started. It delivers ... Read more",
+    "host_name": "hostadvice.com",
+    "rank": 3,
+    "date": "Mar 25, 2026",
+    "favicon": ""
+  },
+  {
+    "url": "https://community.latenode.com/t/where-to-find-free-mysql-database-hosting-for-personal-projects/26521",
+    "name": "Where to find free MySQL database hosting for personal",
+    "snippet": "Jul 4, 2025 — Aiven's another solid choice with a 30-day free trial that gives you full MySQL features.",
+    "host_name": "community.latenode.com",
+    "rank": 4,
+    "date": "Jul 4, 2025",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.facebook.com/groups/1421088291504611/posts/5026142427665828",
+    "name": "What are the best free tier database and hosting platforms?",
+    "snippet": "Quick Inquiry: \n\nWhat database platform and hosting platform is best at the moment on free tier?",
+    "host_name": "www.facebook.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  }
+]

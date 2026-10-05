@@ -1,0 +1,56 @@
+[
+  {
+    "url": "https://forum.infinityfree.com/t/how-to-connect-to-mysql-db-in-aiven/106040",
+    "name": "How to connect to MySQL DB in Aiven - Hosting Support",
+    "snippet": "Feb 15, 2025 — It's possible that the external site is blocking access from InfinityFree servers , you'll have to contact them about this. Read more",
+    "host_name": "forum.infinityfree.com",
+    "rank": 0,
+    "date": "Feb 15, 2025",
+    "favicon": ""
+  },
+  {
+    "url": "https://forum.infinityfree.com/t/mysql-connection-error-please-activate-remote-access/117376",
+    "name": "MySQL Connection Error - Please Activate Remote Access",
+    "snippet": "Jan 24, 2026 — I've read that InfinityFree restricts MySQL access for new accounts as an anti-spam measure. Could this be the issue? Is there a way to ... Read more",
+    "host_name": "forum.infinityfree.com",
+    "rank": 1,
+    "date": "Jan 24, 2026",
+    "favicon": ""
+  },
+  {
+    "url": "https://forum.infinityfree.com/t/connecting-to-mysql-server-out-of-infinity-free-network/34581",
+    "name": "Connecting to MySQL server out of Infinity Free network",
+    "snippet": "Aug 19, 2020 — I am hosting a game server from my VPS and I'm using the VPS's MySQL to store player's data. Now I want to access it through my website, but the ... Read more",
+    "host_name": "forum.infinityfree.com",
+    "rank": 2,
+    "date": "Aug 19, 2020",
+    "favicon": ""
+  },
+  {
+    "url": "https://forum.infinityfree.com/t/connect-to-mysql-database/34426",
+    "name": "Connect to MYSQL database - Hosting Support",
+    "snippet": "Aug 14, 2020 — The main problem is that infinityfree closes or does not enable remote connections to the database, due to security and data overload.",
+    "host_name": "forum.infinityfree.com",
+    "rank": 3,
+    "date": "Aug 14, 2020",
+    "favicon": ""
+  },
+  {
+    "url": "https://forum.infinityfree.com/t/need-remote-mysql/8149",
+    "name": "NEED REMOTE MYSQL - Informal",
+    "snippet": "Dec 4, 2017 — InfinityFree CAN NOT provide you remote MySQL Access at all. They would have to allow everyone access, however iFastNet their ISP does not ...",
+    "host_name": "forum.infinityfree.com",
+    "rank": 4,
+    "date": "Dec 4, 2017",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/mysql/comments/1ol6wv2/remote_access_to_mysql_server_somehow_blocked",
+    "name": "Remote access to MySQL server somehow blocked",
+    "snippet": "I've followed the procedure given online for remote access to a MySQL server but still can't get it to work. I have a server with a running ...",
+    "host_name": "www.reddit.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  }
+]
