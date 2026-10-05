@@ -1,0 +1,1164 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  --radius: 0.75rem;
+  /* ACE dark casino theme (forced dark) */
+  --background: oklch(0.13 0.01 285);
+  --foreground: oklch(0.93 0.005 285);
+  --card: oklch(0.17 0.012 285);
+  --card-foreground: oklch(0.93 0.005 285);
+  --popover: oklch(0.17 0.012 285);
+  --popover-foreground: oklch(0.93 0.005 285);
+  --primary: oklch(0.8 0.15 82);
+  --primary-foreground: oklch(0.15 0.02 82);
+  --secondary: oklch(0.22 0.015 285);
+  --secondary-foreground: oklch(0.93 0.005 285);
+  --muted: oklch(0.22 0.015 285);
+  --muted-foreground: oklch(0.62 0.012 285);
+  --accent: oklch(0.24 0.02 285);
+  --accent-foreground: oklch(0.93 0.005 285);
+  --destructive: oklch(0.62 0.22 25);
+  --border: oklch(0.26 0.015 285);
+  --input: oklch(0.24 0.015 285);
+  --ring: oklch(0.8 0.15 82);
+  --chart-1: oklch(0.8 0.15 82);
+  --chart-2: oklch(0.7 0.16 330);
+  --chart-3: oklch(0.75 0.14 165);
+  --chart-4: oklch(0.65 0.2 20);
+  --chart-5: oklch(0.72 0.15 300);
+  --sidebar: oklch(0.15 0.012 285);
+  --sidebar-foreground: oklch(0.93 0.005 285);
+  --sidebar-primary: oklch(0.8 0.15 82);
+  --sidebar-primary-foreground: oklch(0.15 0.02 82);
+  --sidebar-accent: oklch(0.22 0.015 285);
+  --sidebar-accent-foreground: oklch(0.93 0.005 285);
+  --sidebar-border: oklch(0.26 0.015 285);
+  --sidebar-ring: oklch(0.8 0.15 82);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+/* =====================================================================
+   ACE themes — light / dark (casino) / purple / premium (transparent)
+   Selected via <html data-theme="…">. Scoped attribute selectors
+   (specificity 0-1-1) override both :root and .dark (0-1-0) blocks.
+   ===================================================================== */
+
+/* Theme 1: Dark (classic ACE casino) */
+html[data-theme='dark'] {
+  --background: oklch(0.13 0.01 285);
+  --foreground: oklch(0.93 0.005 285);
+  --card: oklch(0.17 0.012 285);
+  --card-foreground: oklch(0.93 0.005 285);
+  --popover: oklch(0.17 0.012 285);
+  --popover-foreground: oklch(0.93 0.005 285);
+  --primary: oklch(0.8 0.15 82);
+  --primary-foreground: oklch(0.15 0.02 82);
+  --secondary: oklch(0.22 0.015 285);
+  --secondary-foreground: oklch(0.93 0.005 285);
+  --muted: oklch(0.22 0.015 285);
+  --muted-foreground: oklch(0.62 0.012 285);
+  --accent: oklch(0.24 0.02 285);
+  --accent-foreground: oklch(0.93 0.005 285);
+  --destructive: oklch(0.62 0.22 25);
+  --border: oklch(0.26 0.015 285);
+  --input: oklch(0.24 0.015 285);
+  --ring: oklch(0.8 0.15 82);
+  --chart-1: oklch(0.8 0.15 82);
+  --chart-2: oklch(0.7 0.16 330);
+  --chart-3: oklch(0.75 0.14 165);
+  --chart-4: oklch(0.65 0.2 20);
+  --chart-5: oklch(0.72 0.15 300);
+  --sidebar: oklch(0.15 0.012 285);
+  --sidebar-foreground: oklch(0.93 0.005 285);
+  --sidebar-primary: oklch(0.8 0.15 82);
+  --sidebar-primary-foreground: oklch(0.15 0.02 82);
+  --sidebar-accent: oklch(0.22 0.015 285);
+  --sidebar-accent-foreground: oklch(0.93 0.005 285);
+  --sidebar-border: oklch(0.26 0.015 285);
+  --sidebar-ring: oklch(0.8 0.15 82);
+}
+
+/* Theme 2: Light (daylight deck) */
+html[data-theme='light'] {
+  --background: oklch(0.975 0.008 88);
+  --foreground: oklch(0.21 0.012 285);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.21 0.012 285);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.21 0.012 285);
+  --primary: oklch(0.62 0.16 70);
+  --primary-foreground: oklch(0.99 0.01 88);
+  --secondary: oklch(0.945 0.012 88);
+  --secondary-foreground: oklch(0.25 0.012 285);
+  --muted: oklch(0.945 0.012 88);
+  --muted-foreground: oklch(0.47 0.014 285);
+  --accent: oklch(0.93 0.02 88);
+  --accent-foreground: oklch(0.25 0.012 285);
+  --destructive: oklch(0.58 0.22 25);
+  --border: oklch(0.885 0.012 88);
+  --input: oklch(0.885 0.012 88);
+  --ring: oklch(0.62 0.16 70);
+  --chart-1: oklch(0.62 0.16 70);
+  --chart-2: oklch(0.6 0.16 330);
+  --chart-3: oklch(0.62 0.14 165);
+  --chart-4: oklch(0.58 0.2 20);
+  --chart-5: oklch(0.56 0.16 300);
+  --sidebar: oklch(0.955 0.01 88);
+  --sidebar-foreground: oklch(0.21 0.012 285);
+  --sidebar-primary: oklch(0.62 0.16 70);
+  --sidebar-primary-foreground: oklch(0.99 0.01 88);
+  --sidebar-accent: oklch(0.92 0.018 88);
+  --sidebar-accent-foreground: oklch(0.25 0.012 285);
+  --sidebar-border: oklch(0.885 0.012 88);
+  --sidebar-ring: oklch(0.62 0.16 70);
+}
+
+/* Theme 3: Purple (royal flush) */
+html[data-theme='purple'] {
+  --background: oklch(0.155 0.045 295);
+  --foreground: oklch(0.94 0.015 300);
+  --card: oklch(0.2 0.055 295);
+  --card-foreground: oklch(0.94 0.015 300);
+  --popover: oklch(0.2 0.055 295);
+  --popover-foreground: oklch(0.94 0.015 300);
+  --primary: oklch(0.76 0.16 315);
+  --primary-foreground: oklch(0.16 0.05 295);
+  --secondary: oklch(0.25 0.06 295);
+  --secondary-foreground: oklch(0.94 0.015 300);
+  --muted: oklch(0.25 0.06 295);
+  --muted-foreground: oklch(0.68 0.04 300);
+  --accent: oklch(0.28 0.07 295);
+  --accent-foreground: oklch(0.94 0.015 300);
+  --destructive: oklch(0.64 0.21 20);
+  --border: oklch(0.32 0.065 295);
+  --input: oklch(0.28 0.06 295);
+  --ring: oklch(0.76 0.16 315);
+  --chart-1: oklch(0.76 0.16 315);
+  --chart-2: oklch(0.72 0.15 82);
+  --chart-3: oklch(0.72 0.14 200);
+  --chart-4: oklch(0.66 0.19 350);
+  --chart-5: oklch(0.7 0.15 260);
+  --sidebar: oklch(0.18 0.05 295);
+  --sidebar-foreground: oklch(0.94 0.015 300);
+  --sidebar-primary: oklch(0.76 0.16 315);
+  --sidebar-primary-foreground: oklch(0.16 0.05 295);
+  --sidebar-accent: oklch(0.25 0.06 295);
+  --sidebar-accent-foreground: oklch(0.94 0.015 300);
+  --sidebar-border: oklch(0.32 0.065 295);
+  --sidebar-ring: oklch(0.76 0.16 315);
+}
+
+/* Theme 4: Premium "transparent" glass mode — PRO members only.
+   BLACK & WHITE glass with a tip of purple: a monochrome (grayscale)
+   aurora drifts behind the app — white light, silver haze, deep charcoal
+   shadow — with one soft violet glow as the only color. Every surface —
+   posts, feed cards, stories, chat bubbles, composer, menus — renders as
+   frosted white glass; the primary/ring accent (and all amber UI) shifts
+   to deep violet so the only hue on screen is the purple tip. */
+html[data-theme='premium'] {
+  color-scheme: light;
+  --background: oklch(0.97 0.004 300 / 38%);
+  --foreground: oklch(0.22 0.008 300);
+  --card: oklch(1 0 0 / 62%);
+  --card-foreground: oklch(0.22 0.008 300);
+  --popover: oklch(1 0 0 / 84%);
+  --popover-foreground: oklch(0.22 0.008 300);
+  --primary: oklch(0.55 0.23 295);
+  --primary-foreground: oklch(0.99 0.005 300);
+  --secondary: oklch(1 0 0 / 52%);
+  --secondary-foreground: oklch(0.28 0.01 300);
+  --muted: oklch(1 0 0 / 45%);
+  --muted-foreground: oklch(0.44 0.012 300 / 92%);
+  --accent: oklch(0.9 0.004 300 / 55%);
+  --accent-foreground: oklch(0.24 0.01 300);
+  --destructive: oklch(0.58 0.22 25);
+  --border: oklch(1 0 0 / 72%);
+  --input: oklch(1 0 0 / 58%);
+  --ring: oklch(0.55 0.23 295);
+  --chart-1: oklch(0.55 0.23 295);
+  --chart-2: oklch(0.35 0.008 285);
+  --chart-3: oklch(0.6 0.006 300);
+  --chart-4: oklch(0.8 0.005 300);
+  --chart-5: oklch(0.45 0.14 295);
+  --sidebar: oklch(1 0 0 / 45%);
+  --sidebar-foreground: oklch(0.22 0.008 300);
+  --sidebar-primary: oklch(0.55 0.23 295);
+  --sidebar-primary-foreground: oklch(0.99 0.005 300);
+  --sidebar-accent: oklch(0.9 0.004 300 / 52%);
+  --sidebar-accent-foreground: oklch(0.24 0.01 300);
+  --sidebar-border: oklch(1 0 0 / 65%);
+  --sidebar-ring: oklch(0.55 0.23 295);
+}
+
+/* ---- Premium aurora: animated light gradient backdrop -------------
+   Two moving layers: (1) pastel radial blobs drifting/scaling/rotating
+   slowly, (2) a hue-rotate wobble so the glass tint keeps shifting.
+   The layer is oversized (-18% inset) so the drift never shows edges. */
+html[data-theme='premium'] body {
+  background: transparent;
+}
+html[data-theme='premium'] body::before {
+  content: '';
+  position: fixed;
+  inset: -18%;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(46rem 34rem at 12% 6%, oklch(1 0 0 / 78%), transparent 62%),
+    radial-gradient(42rem 30rem at 90% 14%, oklch(0.87 0.005 300 / 62%), transparent 62%),
+    radial-gradient(44rem 36rem at 46% 110%, oklch(0.3 0.01 285 / 36%), transparent 60%),
+    radial-gradient(30rem 22rem at 81% 74%, oklch(0.7 0.14 298 / 34%), transparent 58%),
+    radial-gradient(36rem 26rem at 22% 80%, oklch(0.8 0.06 295 / 20%), transparent 58%),
+    linear-gradient(158deg, oklch(0.97 0.004 300), oklch(0.9 0.006 300) 55%, oklch(0.76 0.012 285));
+  animation: ace-aurora 26s ease-in-out infinite alternate;
+}
+
+@keyframes ace-aurora {
+  0% {
+    transform: translate3d(-1.5%, -1%, 0) scale(1) rotate(0deg);
+    filter: hue-rotate(0deg) saturate(1);
+  }
+  30% {
+    transform: translate3d(2%, 1.2%, 0) scale(1.05) rotate(0.8deg);
+    filter: hue-rotate(12deg) saturate(1.14);
+  }
+  62% {
+    transform: translate3d(-1.2%, 1.8%, 0) scale(1.02) rotate(-0.6deg);
+    filter: hue-rotate(-9deg) saturate(1.08);
+  }
+  100% {
+    transform: translate3d(1.6%, -1.4%, 0) scale(1.07) rotate(0.4deg);
+    filter: hue-rotate(18deg) saturate(1.18);
+  }
+}
+
+/* ---- Real-glass treatment: frost every surface class the app uses.
+   [class*=…] intentionally matches all opacity variants (bg-card,
+   bg-card/40, bg-card/70, bg-card/95 …). Inset white top edge = light
+   catching the glass lip; soft tinted drop shadow = pane thickness. */
+html[data-theme='premium'] [class*='bg-card'],
+html[data-theme='premium'] [class*='bg-popover'] {
+  backdrop-filter: blur(20px) saturate(1.25);
+  box-shadow:
+    inset 0 1px 0 oklch(1 0 0 / 80%),
+    0 8px 28px oklch(0.2 0.02 290 / 20%);
+}
+
+/* chat bubbles, chips, story tiles — lighter frost, faster blur */
+html[data-theme='premium'] [class*='bg-muted'],
+html[data-theme='premium'] [class*='bg-secondary'] {
+  backdrop-filter: blur(14px) saturate(1.5);
+  box-shadow: inset 0 1px 0 oklch(1 0 0 / 70%);
+}
+
+html[data-theme='premium'] [class*='bg-accent'],
+html[data-theme='premium'] [class*='bg-background']:not(body) {
+  backdrop-filter: blur(16px) saturate(1.55);
+}
+
+/* <body> itself must NEVER receive backdrop-filter: a filter value turns an
+   element into the containing block for position:fixed descendants, which
+   dropped the sticky bottom nav + toast stack to the bottom of the document
+   in transparent mode ("the sticky nav disappeared" bug). */
+html[data-theme='premium'] body {
+  backdrop-filter: none;
+}
+
+/* the amber live-ghost bubble gets the same frost as its siblings */
+html[data-theme='premium'] [class*='bg-amber-400\/10'] {
+  backdrop-filter: blur(14px) saturate(1.5);
+  box-shadow: inset 0 1px 0 oklch(1 0 0 / 60%);
+}
+
+/* sticky header + bottom bar: slow animated gradient pan, like light
+   moving across the glass edge of the phone */
+html[data-theme='premium'] header,
+html[data-theme='premium'] nav[aria-label='Bottom navigation'],
+html[data-theme='premium'] aside {
+  background-image: linear-gradient(
+    115deg,
+    oklch(1 0 0 / 0%),
+    oklch(1 0 0 / 26%) 30%,
+    oklch(0.85 0.03 298 / 22%) 55%,
+    oklch(1 0 0 / 0%)
+  );
+  background-size: 220% 100%;
+  animation: ace-glass-sheen 16s ease-in-out infinite alternate;
+}
+
+@keyframes ace-glass-sheen {
+  from {
+    background-position: 0% 50%;
+  }
+  to {
+    background-position: 100% 50%;
+  }
+}
+
+/* readability + palette on monochrome glass: the amber casino accents
+   are recolored to deep violet in this mode — purple stays the only hue */
+html[data-theme='premium'] .text-amber-300,
+html[data-theme='premium'] .text-amber-400 {
+  color: oklch(0.5 0.2 298);
+}
+html[data-theme='premium'] .text-amber-200 {
+  color: oklch(0.45 0.18 298);
+}
+html[data-theme='premium'] .text-gradient-gold {
+  background: linear-gradient(135deg, #8b5cf6, #4c1d95);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+/* amber fills + gradients -> violet (Post button, PRO icons, banners…) */
+html[data-theme='premium'] .bg-amber-400 {
+  background-color: oklch(0.55 0.23 295);
+}
+html[data-theme='premium'] [class*='from-amber-'] {
+  --tw-gradient-from: oklch(0.72 0.17 295);
+}
+html[data-theme='premium'] [class*='to-amber-'] {
+  --tw-gradient-to: oklch(0.45 0.2 295);
+}
+html[data-theme='premium'] [class*='via-amber-'] {
+  --tw-gradient-via: oklch(0.6 0.2 295);
+}
+/* low-opacity amber chips/badges -> translucent violet tint */
+html[data-theme='premium'] [class*='bg-amber-400/10'],
+html[data-theme='premium'] [class*='bg-amber-400/15'] {
+  background-color: oklch(0.55 0.23 295 / 12%);
+}
+html[data-theme='premium'] [class*='border-amber-'] {
+  border-color: oklch(0.55 0.23 295 / 35%);
+}
+html[data-theme='premium'] [class*='shadow-amber'] {
+  --tw-shadow-color: oklch(0.55 0.23 295 / 0.3);
+}
+/* the multicolor story ring becomes a monochrome sweep with a purple tip */
+html[data-theme='premium'] .story-ring {
+  background: conic-gradient(
+    from 200deg,
+    oklch(0.55 0.23 295),
+    oklch(0.92 0 0),
+    oklch(0.25 0.01 285),
+    oklch(0.55 0.23 295)
+  );
+}
+
+/* monochrome glass scrollbars */
+html[data-theme='premium'] ::-webkit-scrollbar-thumb {
+  background: oklch(0.5 0.02 298 / 55%);
+}
+html[data-theme='premium'] ::-webkit-scrollbar-thumb:hover {
+  background: oklch(0.4 0.04 298 / 70%);
+}
+
+/* ---- Glass shadow behind ALL text ------------------------------------
+   A white halo + light rim under every glyph reads as a strip of
+   transparent glass sitting behind the text — letters look like they
+   float on frosted panes. White-on-violet buttons get a soft emboss. */
+html[data-theme='premium'] * {
+  text-shadow:
+    0 1px 1px oklch(1 0 0 / 70%),
+    0 0 7px oklch(1 0 0 / 42%),
+    0 0 16px oklch(0.96 0.01 300 / 26%);
+}
+/* gradient-filled glyphs are transparent, so the halo shines THROUGH the
+   letters — keep it white/pure so the violet gradient reads as backlit */
+html[data-theme='premium'] .text-gradient-gold {
+  text-shadow:
+    0 0 10px oklch(1 0 0 / 62%),
+    0 0 24px oklch(0.9 0.02 300 / 36%);
+}
+
+/* ---- Feed posts: thick floating glass panes --------------------------
+   Strong white rim (glass edge), inset light lines top/bottom (pane
+   thickness) and a deep two-stage drop shadow = real pane hovering
+   above the aurora. Overrides the generic bg-card frost. */
+html[data-theme='premium'] article[data-post-id] {
+  border: 1px solid oklch(1 0 0 / 92%);
+  backdrop-filter: blur(26px) saturate(1.35);
+  box-shadow:
+    inset 0 1px 0 oklch(1 0 0 / 95%),
+    inset 0 -1px 0 oklch(1 0 0 / 42%),
+    0 2px 6px oklch(0.2 0.02 290 / 10%),
+    0 12px 28px oklch(0.2 0.02 290 / 22%),
+    0 26px 60px oklch(0.2 0.02 290 / 26%);
+}
+
+/* ---- ACE suit cards: hundreds of ACE card suits (Spades, Hearts,
+   Diamonds, Clubs) rising through the glass
+   (generated by src/components/ace/ace-leaves.tsx, animated here).
+   The layer is a fixed z-index:-1 portal on <body>: ABOVE the aurora
+   (body::before, also -1, earlier in tree order) and BELOW all app
+   content — frosted cards blur the aces behind them, and the text
+   glass-shadow keeps glyphs readable as aces pass underneath. */
+.ace-leaf-layer {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+/* front subset drifting ABOVE the content (still under the z-40 header,
+   z-50 bottom nav, z-60 drawer and z-90 toasts) — allowed over TEXT only:
+   the JS media-avoidance loop (ace-leaves.tsx) toggles ace-avoid-media on
+   any front ace whose center crosses an <img>/<video>, so photos, clips
+   and reels are never covered */
+.ace-leaf-layer--front {
+  z-index: 30;
+}
+.ace-leaf-fall.ace-avoid-media {
+  visibility: hidden;
+}
+/* outer span: constant upward travel (JS sets duration/delay/left) */
+.ace-leaf-fall {
+  position: absolute;
+  top: 0;
+  will-change: transform;
+  animation-name: ace-leaf-rise;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+@keyframes ace-leaf-rise {
+  from {
+    transform: translate3d(0, 108vh, 0);
+  }
+  to {
+    transform: translate3d(0, -16vh, 0);
+  }
+}
+/* inner span: horizontal sway + spin (JS sets duration/--sway) */
+.ace-leaf-sway {
+  display: block;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  will-change: transform;
+}
+.ace-leaf-sway-a {
+  animation-name: ace-leaf-sway-a;
+}
+@keyframes ace-leaf-sway-a {
+  from {
+    transform: translateX(calc(var(--sway, 24px) * -1)) rotate(-48deg);
+  }
+  to {
+    transform: translateX(var(--sway, 24px)) rotate(52deg);
+  }
+}
+.ace-leaf-sway-b {
+  animation-name: ace-leaf-sway-b;
+}
+@keyframes ace-leaf-sway-b {
+  from {
+    transform: translateX(calc(var(--sway, 24px) * -0.7)) rotate(40deg) scale(0.92);
+  }
+  to {
+    transform: translateX(calc(var(--sway, 24px) * 0.9)) rotate(-55deg) scale(1.08);
+  }
+}
+.ace-leaf-sway-c {
+  animation-name: ace-leaf-sway-c;
+}
+@keyframes ace-leaf-sway-c {
+  from {
+    transform: translateX(calc(var(--sway, 24px) * -0.5)) rotate(-70deg);
+  }
+  to {
+    transform: translateX(calc(var(--sway, 24px) * 0.6)) rotate(65deg);
+  }
+}
+.ace-leaf {
+  display: block;
+}
+/* The four ACE silhouettes (spades / hearts / diamonds / clubs) are
+   carved by inline-SVG paths inside ace-leaves.tsx — crisp at every
+   size, no clip-path needed. The class below only marks the suit for
+   debugging/E2E (ace-suit--spades|hearts|diamonds|clubs). */
+.ace-suit--spades,
+.ace-suit--hearts,
+.ace-suit--diamonds,
+.ace-suit--clubs {
+  overflow: visible;
+}
+
+/* Light theme scrollbar tuning */
+html[data-theme='light'] ::-webkit-scrollbar-thumb {
+  background: oklch(0.78 0.012 88);
+}
+html[data-theme='light'] ::-webkit-scrollbar-thumb:hover {
+  background: oklch(0.68 0.012 88);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* ---- ACE utilities ---- */
+.story-ring {
+  background: conic-gradient(from 200deg, #f0b429, #f43f5e, #8b5cf6, #f0b429);
+}
+.text-gradient-gold {
+  background: linear-gradient(135deg, #f5c451, #d98e04);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: oklch(0.32 0.015 285);
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: oklch(0.4 0.015 285);
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Reels: hidden scrollbar on the snap container */
+.ace-no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.ace-no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Reels: slow Ken Burns drift for image reels */
+@keyframes ace-kenburns {
+  0% {
+    transform: scale(1) translateY(0);
+  }
+  50% {
+    transform: scale(1.12) translateY(-1.5%);
+  }
+  100% {
+    transform: scale(1) translateY(0);
+  }
+}
+.ace-kenburns {
+  animation: ace-kenburns 18s ease-in-out infinite;
+}
+
+/* =====================================================================
+   3D glass-gradient buttons — applies to EVERY <button> and
+   [data-slot='button'] (incl. asChild anchors) in all themes.
+   Layered "glass gem" anatomy:
+     • translucent token fills + backdrop blur = transparent glass body
+     • top-light → bottom-dark vertical sheen = gradient volume
+     • inset white lip + inner bottom shade    = 3D bevel edge
+     • contact + float drop shadows            = lift off the page
+     • hover lift / :active press              = physical feedback
+   These rules are intentionally UN-layered (beat Tailwind's @layer
+   utilities), so the hover tint / focus ring utilities are rebuilt
+   here. Gradient CTAs (bg-gradient-to-*) keep their brand gradient —
+   they are excluded from the sheen but still get bevel + shadows.
+   ===================================================================== */
+button,
+[data-slot='button'] {
+  border: 1px solid oklch(1 0 0 / 26%);
+  box-shadow:
+    inset 0 1px 1px oklch(1 0 0 / 42%),
+    inset 0 -2px 5px oklch(0 0 0 / 15%),
+    inset 0 0 0 1px oklch(1 0 0 / 10%),
+    0 1px 2px oklch(0 0 0 / 22%),
+    0 6px 16px -5px oklch(0 0 0 / 34%);
+  -webkit-backdrop-filter: blur(9px) saturate(1.35);
+  backdrop-filter: blur(9px) saturate(1.35);
+  transition:
+    transform 0.16s cubic-bezier(0.34, 1.4, 0.64, 1),
+    box-shadow 0.22s ease,
+    filter 0.22s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+/* vertical sheen — skipped for buttons that own a utility gradient */
+button:not([class*='bg-gradient-']):not([class*='bg-linear-']),
+[data-slot='button']:not([class*='bg-gradient-']):not([class*='bg-linear-']) {
+  background-image: linear-gradient(
+    180deg,
+    oklch(1 0 0 / 30%) 0%,
+    oklch(1 0 0 / 10%) 38%,
+    oklch(0 0 0 / 2%) 58%,
+    oklch(0 0 0 / 16%) 100%
+  );
+}
+
+/* translucent token fills — solid variant colors become see-through so
+   the backdrop glows through the glass (unlayered rules intentionally
+   retire the flat utility backgrounds AND their hover utilities; the
+   hover feedback below is filter/lift based and stays consistent) */
+button.bg-primary,
+[data-slot='button'].bg-primary {
+  background-color: color-mix(in srgb, var(--primary) 85%, transparent);
+}
+button.bg-secondary,
+[data-slot='button'].bg-secondary {
+  background-color: color-mix(in srgb, var(--secondary) 76%, transparent);
+}
+button.bg-destructive,
+[data-slot='button'].bg-destructive {
+  background-color: color-mix(in srgb, var(--destructive) 85%, transparent);
+}
+button.bg-background,
+[data-slot='button'].bg-background {
+  background-color: color-mix(in srgb, var(--background) 62%, transparent);
+}
+
+/* hover: rise into the light */
+button:hover:not(:disabled),
+[data-slot='button']:hover:not(:disabled) {
+  transform: translateY(-1px);
+  filter: brightness(1.06) saturate(1.06);
+  box-shadow:
+    inset 0 1px 1px oklch(1 0 0 / 55%),
+    inset 0 -2px 5px oklch(0 0 0 / 15%),
+    inset 0 0 0 1px oklch(1 0 0 / 16%),
+    0 2px 4px oklch(0 0 0 / 22%),
+    0 10px 22px -6px oklch(0 0 0 / 40%);
+}
+
+/* press: push the gem into its own shadow */
+button:active:not(:disabled),
+[data-slot='button']:active:not(:disabled) {
+  transform: translateY(1px) scale(0.98);
+  filter: brightness(0.96) saturate(1.02);
+  box-shadow:
+    inset 0 2px 6px oklch(0 0 0 / 24%),
+    inset 0 1px 1px oklch(1 0 0 / 24%),
+    0 1px 2px oklch(0 0 0 / 26%);
+}
+
+/* focus ring rebuilt into the same shadow stack (the unlayered shadows
+   above override the utility ring, so the ring now lives here) */
+button:focus-visible,
+[data-slot='button']:focus-visible {
+  border-color: color-mix(in srgb, var(--ring) 60%, transparent);
+  box-shadow:
+    inset 0 1px 1px oklch(1 0 0 / 42%),
+    inset 0 -2px 5px oklch(0 0 0 / 15%),
+    0 1px 2px oklch(0 0 0 / 22%),
+    0 6px 16px -5px oklch(0 0 0 / 34%),
+    0 0 0 3px color-mix(in srgb, var(--ring) 45%, transparent);
+}
+
+/* disabled: flat glass, no lift (utility opacity-50 still dims it) */
+button:disabled,
+[data-slot='button']:disabled {
+  box-shadow:
+    inset 0 1px 1px oklch(1 0 0 / 20%),
+    inset 0 -1px 3px oklch(0 0 0 / 8%);
+  transform: none;
+}
+
+/* light theme: a white lip disappears on daylight glass — swap to a
+   dark hairline edge + a stronger white sheen for the 3D read */
+html[data-theme='light'] button,
+html[data-theme='light'] [data-slot='button'] {
+  border-color: oklch(0.45 0.02 285 / 18%);
+}
+html[data-theme='light'] button:not([class*='bg-gradient-']):not([class*='bg-linear-']),
+html[data-theme='light'] [data-slot='button']:not([class*='bg-gradient-']):not([class*='bg-linear-']) {
+  background-image: linear-gradient(
+    180deg,
+    oklch(1 0 0 / 62%) 0%,
+    oklch(1 0 0 / 16%) 40%,
+    oklch(0.45 0.02 285 / 4%) 60%,
+    oklch(0.45 0.02 285 / 12%) 100%
+  );
+}
+
+/* premium PRO glass: thicker frost, brighter lip — buttons feel like
+   solid pieces cut from the same pane as the cards */
+html[data-theme='premium'] button,
+html[data-theme='premium'] [data-slot='button'] {
+  border-color: oklch(1 0 0 / 55%);
+  -webkit-backdrop-filter: blur(14px) saturate(1.45);
+  backdrop-filter: blur(14px) saturate(1.45);
+  box-shadow:
+    inset 0 1px 0 oklch(1 0 0 / 75%),
+    inset 0 -2px 5px oklch(0.3 0.02 290 / 12%),
+    inset 0 0 0 1px oklch(1 0 0 / 22%),
+    0 1px 2px oklch(0.2 0.02 290 / 16%),
+    0 8px 20px -6px oklch(0.2 0.02 290 / 30%);
+}
+
+/* =====================================================================
+   ACE DARK THEME — Deep-space star field
+   Two layers of twinkling dots behind the dark casino UI.
+   Each star is a tiny pseudo-element created via multi-value
+   box-shadow on the body::before (fine) and body::after (medium).
+   Pure CSS — no JS, no extra DOM elements.
+   ===================================================================== */
+html[data-theme='dark'] body::before,
+html[data-theme='dark'] body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  border-radius: 50%;
+}
+
+/* Fine star layer — 80 tiny white dots */
+html[data-theme='dark'] body::before {
+  width: 1px;
+  height: 1px;
+  background: transparent;
+  box-shadow:
+    182px 43px oklch(1 0 0 / 55%), 412px 312px oklch(1 0 0 / 40%),
+    789px 98px oklch(1 0 0 / 60%), 91px 540px oklch(1 0 0 / 45%),
+    623px 711px oklch(1 0 0 / 50%), 1103px 234px oklch(1 0 0 / 35%),
+    334px 876px oklch(1 0 0 / 55%), 956px 420px oklch(1 0 0 / 45%),
+    67px 190px oklch(1 0 0 / 65%), 1240px 610px oklch(1 0 0 / 40%),
+    540px 55px oklch(1 0 0 / 50%), 891px 780px oklch(1 0 0 / 35%),
+    230px 650px oklch(1 0 0 / 60%), 760px 210px oklch(1 0 0 / 45%),
+    1180px 90px oklch(1 0 0 / 55%), 440px 480px oklch(1 0 0 / 40%),
+    110px 370px oklch(1 0 0 / 50%), 830px 560px oklch(1 0 0 / 45%),
+    1290px 730px oklch(1 0 0 / 35%), 370px 140px oklch(1 0 0 / 60%),
+    680px 890px oklch(1 0 0 / 50%), 1050px 320px oklch(1 0 0 / 40%),
+    200px 770px oklch(1 0 0 / 55%), 920px 45px oklch(1 0 0 / 45%),
+    490px 620px oklch(1 0 0 / 60%), 140px 920px oklch(1 0 0 / 35%),
+    1150px 500px oklch(1 0 0 / 50%), 710px 340px oklch(1 0 0 / 45%),
+    305px 250px oklch(1 0 0 / 55%), 860px 150px oklch(1 0 0 / 40%),
+    /* amber-tinted "warm" stars */
+    550px 750px oklch(0.85 0.12 82 / 45%), 990px 660px oklch(0.85 0.12 82 / 35%),
+    170px 830px oklch(0.85 0.12 82 / 50%), 1220px 180px oklch(0.85 0.12 82 / 40%),
+    635px 400px oklch(0.85 0.12 82 / 30%), 80px 700px oklch(0.85 0.12 82 / 45%),
+    /* blue-tinted "cool" stars */
+    1080px 820px oklch(0.75 0.1 250 / 35%), 460px 200px oklch(0.75 0.1 250 / 40%),
+    800px 970px oklch(0.75 0.1 250 / 30%), 320px 490px oklch(0.75 0.1 250 / 35%);
+  animation: ace-stars-twinkle-fine 4s ease-in-out infinite alternate;
+}
+
+/* Medium star layer — larger, slower */
+html[data-theme='dark'] body::after {
+  width: 2px;
+  height: 2px;
+  background: transparent;
+  box-shadow:
+    122px 213px oklch(1 0 0 / 70%), 756px 88px oklch(1 0 0 / 55%),
+    344px 556px oklch(1 0 0 / 65%), 1011px 390px oklch(1 0 0 / 50%),
+    589px 810px oklch(1 0 0 / 70%), 188px 44px oklch(1 0 0 / 60%),
+    912px 680px oklch(1 0 0 / 55%), 67px 430px oklch(1 0 0 / 65%),
+    1250px 280px oklch(1 0 0 / 50%), 476px 930px oklch(1 0 0 / 70%),
+    800px 162px oklch(1 0 0 / 60%), 234px 720px oklch(1 0 0 / 55%),
+    1130px 550px oklch(1 0 0 / 65%), 660px 340px oklch(1 0 0 / 50%),
+    38px 870px oklch(1 0 0 / 70%), 990px 120px oklch(1 0 0 / 60%),
+    /* gold twinkling accents */
+    450px 450px oklch(0.88 0.16 82 / 60%), 870px 790px oklch(0.88 0.16 82 / 50%),
+    215px 320px oklch(0.88 0.16 82 / 70%), 1170px 640px oklch(0.88 0.16 82 / 55%),
+    /* purple sparkles */
+    620px 580px oklch(0.72 0.18 295 / 55%), 90px 155px oklch(0.72 0.18 295 / 45%),
+    1040px 855px oklch(0.72 0.18 295 / 60%), 380px 660px oklch(0.72 0.18 295 / 50%);
+  animation: ace-stars-twinkle-med 6s ease-in-out infinite alternate;
+}
+
+@keyframes ace-stars-twinkle-fine {
+  0%   { opacity: 0.4; transform: scale(1); }
+  25%  { opacity: 0.9; }
+  50%  { opacity: 0.5; transform: scale(1.05); }
+  75%  { opacity: 1; }
+  100% { opacity: 0.45; transform: scale(0.98); }
+}
+
+@keyframes ace-stars-twinkle-med {
+  0%   { opacity: 0.5; transform: scale(1); }
+  33%  { opacity: 1; }
+  66%  { opacity: 0.6; transform: scale(1.04); }
+  100% { opacity: 0.55; transform: scale(0.97); }
+}
+
+/* =====================================================================
+   ACE PURPLE THEME — Aurora borealis animated backdrop
+   Three overlapping radial gradient blobs shift and morph slowly,
+   creating a moving northern-lights effect behind the purple casino.
+   ===================================================================== */
+html[data-theme='purple'] body::before {
+  content: '';
+  position: fixed;
+  inset: -20%;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(55rem 40rem at 20% 30%, oklch(0.48 0.22 285 / 55%), transparent 65%),
+    radial-gradient(48rem 36rem at 80% 20%, oklch(0.52 0.24 315 / 45%), transparent 60%),
+    radial-gradient(42rem 30rem at 50% 85%, oklch(0.44 0.2 260 / 40%), transparent 65%),
+    radial-gradient(36rem 26rem at 15% 75%, oklch(0.56 0.2 330 / 30%), transparent 60%),
+    linear-gradient(160deg, oklch(0.155 0.045 295), oklch(0.17 0.055 285) 60%, oklch(0.145 0.04 305));
+  animation: ace-aurora-purple 20s ease-in-out infinite alternate;
+}
+
+@keyframes ace-aurora-purple {
+  0%   {
+    transform: translate3d(-2%, -1.5%, 0) scale(1) rotate(0deg);
+    filter: hue-rotate(0deg) saturate(1);
+  }
+  25%  {
+    transform: translate3d(2.5%, 1%, 0) scale(1.06) rotate(0.5deg);
+    filter: hue-rotate(20deg) saturate(1.2);
+  }
+  50%  {
+    transform: translate3d(-1%, 2%, 0) scale(1.03) rotate(-0.3deg);
+    filter: hue-rotate(-10deg) saturate(1.1);
+  }
+  75%  {
+    transform: translate3d(1.5%, -1%, 0) scale(1.07) rotate(0.8deg);
+    filter: hue-rotate(30deg) saturate(1.25);
+  }
+  100% {
+    transform: translate3d(-1.8%, 1.2%, 0) scale(1.04) rotate(-0.5deg);
+    filter: hue-rotate(-5deg) saturate(1.15);
+  }
+}
+
+/* Purple theme card glow — ambient light from the aurora */
+html[data-theme='purple'] [class*='bg-card'],
+html[data-theme='purple'] [class*='bg-popover'] {
+  box-shadow:
+    0 0 0 1px oklch(0.52 0.18 295 / 15%),
+    0 4px 20px oklch(0.48 0.22 295 / 18%),
+    0 16px 40px oklch(0.44 0.2 285 / 12%);
+}
+
+/* =====================================================================
+   ACE LIGHT THEME — Warm sunrise gradient background
+   ===================================================================== */
+html[data-theme='light'] body {
+  background: linear-gradient(160deg, oklch(0.985 0.012 88), oklch(0.97 0.018 72) 50%, oklch(0.975 0.01 100));
+}
+
+/* =====================================================================
+   Scroll-reveal animation utility — used on profile stats, notifications etc.
+   Apply .ace-reveal to any element; it fades+slides in on mount.
+   ===================================================================== */
+@keyframes ace-reveal {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.ace-reveal {
+  animation: ace-reveal 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.ace-reveal-delay-1 { animation-delay: 0.06s; }
+.ace-reveal-delay-2 { animation-delay: 0.12s; }
+.ace-reveal-delay-3 { animation-delay: 0.18s; }
+.ace-reveal-delay-4 { animation-delay: 0.24s; }
+.ace-reveal-delay-5 { animation-delay: 0.30s; }
+.ace-reveal-delay-6 { animation-delay: 0.36s; }
+
+/* =====================================================================
+   Post-card hover glow & subtle lift — enhances the 3D effect
+   ===================================================================== */
+article[data-post-id] {
+  transition:
+    box-shadow 0.3s ease,
+    transform 0.25s cubic-bezier(0.34, 1.4, 0.64, 1),
+    background-color 0.2s ease;
+}
+article[data-post-id]:hover {
+  box-shadow:
+    0 2px 12px oklch(0 0 0 / 12%),
+    0 8px 32px oklch(0 0 0 / 16%),
+    inset 0 1px 0 oklch(1 0 0 / 8%);
+}
+html[data-theme='dark'] article[data-post-id]:hover {
+  box-shadow:
+    0 2px 12px oklch(0.8 0.15 82 / 6%),
+    0 8px 32px oklch(0 0 0 / 22%),
+    inset 0 1px 0 oklch(1 0 0 / 6%);
+}
+html[data-theme='purple'] article[data-post-id]:hover {
+  box-shadow:
+    0 2px 12px oklch(0.52 0.22 295 / 12%),
+    0 8px 32px oklch(0.48 0.2 285 / 18%),
+    inset 0 1px 0 oklch(1 0 0 / 8%);
+}
+
+/* =====================================================================
+   Verified badge shimmer — animated gold sweep across the ✓ checkmark
+   ===================================================================== */
+@keyframes ace-shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+.ace-verified-shimmer {
+  background: linear-gradient(
+    90deg,
+    oklch(0.8 0.15 82) 0%,
+    oklch(0.95 0.18 80) 30%,
+    oklch(0.7 0.2 82) 50%,
+    oklch(0.95 0.18 80) 70%,
+    oklch(0.8 0.15 82) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: ace-shimmer 2.5s linear infinite;
+}
+.ace-pro-shimmer {
+  background: linear-gradient(
+    90deg,
+    oklch(0.78 0.16 82) 0%,
+    oklch(0.96 0.2 78) 25%,
+    oklch(0.88 0.22 86) 50%,
+    oklch(0.96 0.2 78) 75%,
+    oklch(0.78 0.16 82) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: ace-shimmer 2s linear infinite;
+}
+
+/* =====================================================================
+   Bookmark button pulse animation — fires once on save
+   ===================================================================== */
+@keyframes ace-bookmark-pop {
+  0%   { transform: scale(1); }
+  35%  { transform: scale(1.35) rotate(-8deg); }
+  65%  { transform: scale(0.9) rotate(4deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+.ace-bookmark-pop {
+  animation: ace-bookmark-pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* =====================================================================
+   Notification item hover — slide-in highlight
+   ===================================================================== */
+.ace-notif-item {
+  transition: background-color 0.18s ease, transform 0.18s ease;
+}
+.ace-notif-item:hover {
+  background-color: oklch(1 0 0 / 4%);
+  transform: translateX(2px);
+}
+html[data-theme='light'] .ace-notif-item:hover {
+  background-color: oklch(0 0 0 / 3%);
+}
+
+/* =====================================================================
+   Feed composer typing area glow
+   ===================================================================== */
+.ace-composer-focus-ring:focus-within {
+  box-shadow: 0 0 0 2px oklch(0.8 0.15 82 / 30%), 0 4px 16px oklch(0.8 0.15 82 / 10%);
+  transition: box-shadow 0.25s ease;
+}
+
+/* =====================================================================
+   Profile page — gradient stat cards
+   ===================================================================== */
+.ace-stat-card {
+  background: linear-gradient(135deg, oklch(1 0 0 / 5%), oklch(1 0 0 / 2%));
+  border: 1px solid oklch(1 0 0 / 10%);
+  transition: transform 0.2s cubic-bezier(0.34, 1.4, 0.64, 1), box-shadow 0.2s ease;
+}
+.ace-stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px oklch(0 0 0 / 16%);
+}
+html[data-theme='light'] .ace-stat-card {
+  background: linear-gradient(135deg, oklch(1 0 0), oklch(0.97 0.01 88));
+  border-color: oklch(0.88 0.01 88);
+  box-shadow: 0 1px 4px oklch(0 0 0 / 6%);
+}
+html[data-theme='purple'] .ace-stat-card {
+  background: linear-gradient(135deg, oklch(0.28 0.07 295 / 80%), oklch(0.22 0.055 295 / 60%));
+  border-color: oklch(0.38 0.08 295 / 40%);
+}
+
+/* =====================================================================
+   Trending tag chip hover
+   ===================================================================== */
+.ace-tag-chip {
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+.ace-tag-chip:hover {
+  transform: translateY(-1px) scale(1.03);
+  box-shadow: 0 4px 12px oklch(0 0 0 / 16%);
+}
+
+/* =====================================================================
+   Story ring — enhanced pulsing glow for unseen stories
+   ===================================================================== */
+@keyframes ace-story-pulse {
+  0%, 100% { box-shadow: 0 0 0 2px oklch(0.8 0.15 82 / 40%); }
+  50%       { box-shadow: 0 0 0 4px oklch(0.8 0.15 82 / 20%), 0 0 12px oklch(0.8 0.15 82 / 25%); }
+}
+.story-ring-pulse {
+  animation: ace-story-pulse 2.5s ease-in-out infinite;
+}
+
+/* =====================================================================
+   View transition — smooth cross-fade between pages/views
+   ===================================================================== */
+@keyframes ace-view-in {
+  from { opacity: 0; transform: translateY(8px) scale(0.99); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.ace-view-enter {
+  animation: ace-view-in 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* =====================================================================
+   Auth page — animated floating card background elements
+   ===================================================================== */
+@keyframes ace-float-1 {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  33%       { transform: translate(8px, -12px) rotate(6deg); }
+  66%       { transform: translate(-5px, 8px) rotate(-4deg); }
+}
+@keyframes ace-float-2 {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  33%       { transform: translate(-10px, 6px) rotate(-7deg); }
+  66%       { transform: translate(6px, -10px) rotate(5deg); }
+}
+@keyframes ace-float-3 {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  50%       { transform: translate(5px, 14px) rotate(8deg); }
+}
+.ace-auth-float-1 { animation: ace-float-1 7s ease-in-out infinite; }
+.ace-auth-float-2 { animation: ace-float-2 9s ease-in-out infinite; }
+.ace-auth-float-3 { animation: ace-float-3 11s ease-in-out infinite; }
+
+/* Gradient hero text for auth page */
+@keyframes ace-gradient-shift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.ace-hero-text {
+  background: linear-gradient(
+    135deg,
+    oklch(0.88 0.18 82) 0%,
+    oklch(0.96 0.22 78) 25%,
+    oklch(0.82 0.2 300) 50%,
+    oklch(0.95 0.2 82) 75%,
+    oklch(0.88 0.18 82) 100%
+  );
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: ace-gradient-shift 4s ease-in-out infinite;
+}
+
+/* =====================================================================
+   Emoji reaction pop animation
+   ===================================================================== */
+@keyframes ace-reaction-pop {
+  0%   { transform: scale(0) rotate(-20deg); opacity: 0; }
+  60%  { transform: scale(1.3) rotate(5deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+.ace-reaction-pop {
+  animation: ace-reaction-pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+/* =====================================================================
+   Messages — seen checkmark animation
+   ===================================================================== */
+@keyframes ace-check-draw {
+  from { stroke-dashoffset: 20; opacity: 0; }
+  to   { stroke-dashoffset: 0; opacity: 1; }
+}
+.ace-check-draw {
+  stroke-dasharray: 20;
+  animation: ace-check-draw 0.4s ease-out both;
+}
+
