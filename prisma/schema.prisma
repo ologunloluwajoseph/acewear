@@ -1,0 +1,558 @@
+// =====================================================================
+// ACE — Social Platform (Node.js edition)
+// Replaces the PHP/MySQL schema (database/schema.sql) with Prisma/SQLite
+// All queries flow through Prisma Client => 100% parameterized (no SQLi)
+// =====================================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  username     String   @unique
+  email        String   @unique
+  passwordHash String
+  firstName    String?
+  bio          String?
+  avatarUrl    String?
+  coverUrl     String?
+  isAdmin      Boolean  @default(false)
+  isVerified   Boolean  @default(false)
+  isPro        Boolean  @default(false)
+  isBanned     Boolean  @default(false)
+  aceCoins     Int      @default(250)
+  trustScore   Int      @default(100)
+  streakCount  Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // ---- settings / account (Task 6 additions) ----
+  tokenVersion Int      @default(0) // bump on password change -> invalidates all signed sessions
+  nameChangedAt DateTime?            // 60-day display-name change cooldown
+
+  // privacy toggles
+  privateProfile      Boolean @default(false)
+  showOnlineStatus    Boolean @default(true)
+  messagesFromAnyone  Boolean @default(false) // false = followers only
+  showReadReceipts    Boolean @default(true)
+  searchableByEmail   Boolean @default(true)
+
+  // PRO membership (Task 16) — isPro=true + proUntil=null means lifetime;
+  // proUntil in the future = an active paid period that expires on its own.
+  proPlan           String?   // monthly | yearly | lifetime
+  proUntil          DateTime?
+
+  // payout account (self-only, never exposed on public profile)
+  payoutMethod      String?   // bank | paypal | crypto | mobile_money
+  payoutAccountName String?
+  payoutDetails     String?   // account number / IBAN / wallet / phone
+  payoutUpdatedAt   DateTime?
+
+  // Paystack payout extras (Task 16)
+  payoutBankCode        String? // Paystack bank code (bank-transfer payouts)
+  payoutBankName        String?
+  paystackRecipientCode String? // transfer recipient, created on first payout
+
+  // Task 23 — trust & safety + account recovery
+  emailVerified Boolean @default(false)
+
+  posts           Post[]          @relation("author")
+  comments        Comment[]
+  likes           Like[]
+  dislikes        Dislike[]
+  postTags        PostTag[]
+  bookmarks       Bookmark[]
+  reels           Reel[]
+  reelLikes       ReelLike[]
+  stories         Story[]
+  storyViews      StoryView[]
+  votes           Vote[]
+  followers       Follow[]        @relation("followTarget")
+  following       Follow[]        @relation("followActor")
+  notifications   Notification[]  @relation("notifRecipient")
+  actorNotes      Notification[]  @relation("notifActor")
+  sentMessages    Message[]       @relation("messageSender")
+  conversationsA  Conversation[]  @relation("convUser1")
+  conversationsB  Conversation[]  @relation("convUser2")
+  contestsCreated Contest[]       @relation("contestCreator")
+  contestsWon     Contest[]       @relation("contestWinner")
+  entries         ContestEntry[]
+  entryVotes      ContestVote[]
+  orders          Order[]
+  reviews         Review[]
+  withdrawals     Withdrawal[]
+  payments        Payment[]
+
+  // Task 23 — trust & safety + account recovery relations
+  reportsMade            Report[]  @relation("reporter")
+  blocksMade             Block[]   @relation("blocker")
+  blocksReceived         Block[]   @relation("blockedUser")
+  passwordResetTokens    PasswordResetToken[]
+  emailVerificationTokens EmailVerificationToken[]
+
+  @@index([username])
+  @@index([createdAt])
+}
+
+model Post {
+  id            Int      @id @default(autoincrement())
+  userId        Int
+  contestId     Int?
+  body          String?
+  mediaUrl      String?
+  mediaType     String   @default("image") // text | image
+  category      String   @default("other")
+  status        String   @default("active") // active | removed
+  removalReason String?
+  likesCount    Int      @default(0)
+  dislikesCount Int      @default(0)
+  resharesCount Int      @default(0)
+  commentsCount Int      @default(0)
+  votesCount    Int      @default(0)
+  originalPostId Int?    // repost source (null = original content)
+  createdAt     DateTime @default(now())
+
+  user         User        @relation("author", fields: [userId], references: [id], onDelete: Cascade)
+  contest      Contest?    @relation(fields: [contestId], references: [id], onDelete: SetNull)
+  originalPost Post?       @relation("PostRepost", fields: [originalPostId], references: [id], onDelete: SetNull)
+  repostsOf    Post[]      @relation("PostRepost")
+  likes        Like[]
+  dislikes     Dislike[]
+  tags         PostTag[]
+  bookmarks    Bookmark[]
+  comments     Comment[]
+  votes        Vote[]
+  entries      ContestEntry[]
+
+  @@index([userId, createdAt])
+  @@index([contestId])
+  @@index([createdAt])
+  @@index([status])
+}
+
+// Votes on contest posts (1 per user per post, matches uniq_vote_per_user_post)
+model Vote {
+  id        Int      @id @default(autoincrement())
+  postId    Int
+  userId    Int
+  createdAt DateTime @default(now())
+
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([postId, userId])
+  @@index([userId])
+}
+
+model Like {
+  id        Int      @id @default(autoincrement())
+  postId    Int
+  userId    Int
+  createdAt DateTime @default(now())
+
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([postId, userId])
+  @@index([userId])
+}
+
+// Broken-heart reactions (1 per user per post, mutually exclusive with Like)
+model Dislike {
+  id        Int      @id @default(autoincrement())
+  postId    Int
+  userId    Int
+  createdAt DateTime @default(now())
+
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([postId, userId])
+  @@index([userId])
+}
+
+// Friends & followers tagged in a post (max 10 per post)
+model PostTag {
+  id        Int      @id @default(autoincrement())
+  postId    Int
+  userId    Int
+  createdAt DateTime @default(now())
+
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([postId, userId])
+  @@index([userId])
+}
+
+// User-saved posts (bookmarks / saves)
+model Bookmark {
+  id        Int      @id @default(autoincrement())
+  postId    Int
+  userId    Int
+  createdAt DateTime @default(now())
+
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([postId, userId])
+  @@index([userId, createdAt])
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  postId    Int
+  userId    Int
+  body      String
+  createdAt DateTime @default(now())
+
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([postId, createdAt])
+  @@index([userId])
+}
+
+model Story {
+  id              Int      @id @default(autoincrement())
+  userId          Int
+  body            String?
+  mediaUrl        String?
+  backgroundColor String   @default("#f0b429")
+  viewsCount      Int      @default(0)
+  expiresAt       DateTime // 24h lifetime (STORY_LIFETIME_HOURS = 24)
+  createdAt       DateTime @default(now())
+
+  user  User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  views StoryView[]
+
+  @@index([userId, expiresAt])
+  @@index([expiresAt])
+}
+
+model StoryView {
+  id       Int      @id @default(autoincrement())
+  storyId  Int
+  userId   Int
+  viewedAt DateTime @default(now())
+
+  story Story @relation(fields: [storyId], references: [id], onDelete: Cascade)
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([storyId, userId])
+}
+
+// Short-form vertical videos (reels page) — TikTok-style snap feed
+model Reel {
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  caption    String?
+  mediaUrl   String
+  mediaType  String   @default("video") // video | image
+  posterUrl  String? // thumbnail shown while video loads
+  soundLabel String? // decorative "sound" credit, e.g. "House of Cards — ACE Beats"
+  viewsCount Int      @default(0)
+  likesCount Int      @default(0)
+  status     String   @default("active") // active | removed
+  createdAt  DateTime @default(now())
+
+  user  User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  likes ReelLike[]
+
+  @@index([userId, createdAt])
+  @@index([status, createdAt])
+}
+
+model ReelLike {
+  id        Int      @id @default(autoincrement())
+  reelId    Int
+  userId    Int
+  createdAt DateTime @default(now())
+
+  reel Reel @relation(fields: [reelId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([reelId, userId])
+  @@index([userId])
+}
+
+model Contest {
+  id                Int      @id @default(autoincrement())
+  title             String
+  slug              String   @unique
+  description       String?
+  category          String   @default("other")
+  coverUrl          String?
+  prize             String?
+  startsAt          DateTime @default(now())
+  endsAt            DateTime
+  votingEndsAt      DateTime
+  status            String   @default("active") // upcoming | active | voting | completed
+  tier              String   @default("weekly")
+  maxEntriesPerUser Int      @default(1)
+  winnerUserId      Int?
+  createdById       Int
+  createdAt         DateTime @default(now())
+
+  createdBy User           @relation("contestCreator", fields: [createdById], references: [id], onDelete: Cascade)
+  winner    User?          @relation("contestWinner", fields: [winnerUserId], references: [id], onDelete: SetNull)
+  entries   ContestEntry[]
+  posts     Post[]
+
+  @@index([status])
+  @@index([endsAt])
+}
+
+model ContestEntry {
+  id         Int      @id @default(autoincrement())
+  contestId  Int
+  userId     Int
+  postId     Int?
+  caption    String
+  imageUrl   String?
+  votesCount Int      @default(0)
+  createdAt  DateTime @default(now())
+
+  contest Contest       @relation(fields: [contestId], references: [id], onDelete: Cascade)
+  user    User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post    Post?         @relation(fields: [postId], references: [id], onDelete: SetNull)
+  votes   ContestVote[]
+
+  @@unique([contestId, userId])
+  @@index([contestId, votesCount])
+}
+
+model ContestVote {
+  id        Int      @id @default(autoincrement())
+  entryId   Int
+  userId    Int
+  createdAt DateTime @default(now())
+
+  entry ContestEntry @relation(fields: [entryId], references: [id], onDelete: Cascade)
+  user  User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([entryId, userId])
+  @@index([userId])
+}
+
+model Conversation {
+  id            Int      @id @default(autoincrement())
+  user1Id       Int
+  user2Id       Int
+  lastMessageAt DateTime @default(now())
+
+  user1    User      @relation("convUser1", fields: [user1Id], references: [id], onDelete: Cascade)
+  user2    User      @relation("convUser2", fields: [user2Id], references: [id], onDelete: Cascade)
+  messages Message[]
+
+  @@unique([user1Id, user2Id])
+  @@index([lastMessageAt])
+}
+
+model Message {
+  id             Int      @id @default(autoincrement())
+  conversationId Int
+  senderId       Int
+  body           String
+  isRead         Boolean  @default(false)
+  createdAt      DateTime @default(now())
+
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  sender       User         @relation("messageSender", fields: [senderId], references: [id], onDelete: Cascade)
+
+  @@index([conversationId, createdAt])
+  @@index([senderId])
+}
+
+model Notification {
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  actorId    Int?
+  type       String // like | comment | follow | vote | message | system | contest_win | purchase | review
+  targetType String?
+  targetId   Int?
+  text       String
+  link       String?
+  isRead     Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  user  User  @relation("notifRecipient", fields: [userId], references: [id], onDelete: Cascade)
+  actor User? @relation("notifActor", fields: [actorId], references: [id], onDelete: SetNull)
+
+  @@index([userId, isRead])
+  @@index([createdAt])
+}
+
+model Product {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String
+  priceCoins  Int
+  image       String?
+  category    String   @default("boost") // boost | badge | coins | cosmetic
+  stock       Int      @default(-1) // -1 = unlimited
+  createdAt   DateTime @default(now())
+
+  orders  Order[]
+  reviews Review[]
+}
+
+model Order {
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  productId  Int
+  priceCoins Int
+  status     String   @default("completed") // completed | refunded
+  createdAt  DateTime @default(now())
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([productId])
+}
+
+// Gated reviews: only users with a completed Order for the product may write
+model Review {
+  id        Int      @id @default(autoincrement())
+  productId Int
+  userId    Int
+  rating    Int // 1..5
+  body      String
+  verified  Boolean  @default(true) // always true when created through the gate
+  createdAt DateTime @default(now())
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([productId, userId])
+  @@index([productId])
+}
+
+// Paystack checkout for ACE PRO plans (Task 16)
+// One row per checkout attempt; reference is idempotent across
+// verify-callback + webhook + demo completion.
+model Payment {
+  id         Int       @id @default(autoincrement())
+  userId     Int
+  plan       String    // monthly | yearly | lifetime
+  amountKobo Int
+  currency   String    @default("NGN")
+  reference  String    @unique
+  provider   String    @default("paystack") // paystack | demo
+  status     String    @default("pending") // pending | success | failed
+  paidAt     DateTime?
+  createdAt  DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+}
+
+model Follow {
+  id          Int      @id @default(autoincrement())
+  followerId  Int
+  followingId Int
+  createdAt   DateTime @default(now())
+
+  follower  User @relation("followActor", fields: [followerId], references: [id], onDelete: Cascade)
+  following User @relation("followTarget", fields: [followingId], references: [id], onDelete: Cascade)
+
+  @@unique([followerId, followingId])
+  @@index([followingId])
+}
+
+// Coin -> cash withdrawal requests (creator fund payouts)
+model Withdrawal {
+  id          Int       @id @default(autoincrement())
+  userId      Int
+  amountCoins Int
+  amountNaira Int?      // ₦ cash-out value (1 coin = ₦1)
+  method      String
+  destination String    // snapshot of payout details at request time
+  status      String    @default("pending") // pending | processing | paid | rejected
+  transferRef String?   // Paystack transfer reference (or simulated demo ref)
+  note        String?   // admin review note
+  createdAt   DateTime  @default(now())
+  processedAt DateTime?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@index([status])
+}
+
+// =====================================================================
+// Task 23 — Trust & safety + account recovery
+// =====================================================================
+
+// User-submitted reports against posts / users / messages; admins work
+// the open queue from the Admin page (resolve / dismiss / remove post).
+model Report {
+  id         Int       @id @default(autoincrement())
+  reporterId Int
+  targetType String // post | user | message
+  targetId   Int
+  reason     String // spam | abuse | nsfw | scam | other
+  details    String?
+  status     String    @default("open") // open | resolved | dismissed
+  resolution String? // action taken by the admin
+  createdAt  DateTime  @default(now())
+  resolvedAt DateTime?
+
+  reporter User @relation("reporter", fields: [reporterId], references: [id], onDelete: Cascade)
+
+  @@unique([reporterId, targetType, targetId]) // one report per user per target
+  @@index([status, createdAt])
+  @@index([targetType, targetId])
+}
+
+// Shadow-block: posts from blocked users disappear from the blocker's
+// feed/search, and DMs between the two are refused.
+model Block {
+  id        Int      @id @default(autoincrement())
+  blockerId Int
+  blockedId Int
+  createdAt DateTime @default(now())
+
+  blocker User @relation("blocker", fields: [blockerId], references: [id], onDelete: Cascade)
+  blocked User @relation("blockedUser", fields: [blockedId], references: [id], onDelete: Cascade)
+
+  @@unique([blockerId, blockedId])
+  @@index([blockedId])
+}
+
+// Single-use, hashed, expiring tokens for password reset
+// (raw token only ever lives in the reset link; DB stores sha256).
+model PasswordResetToken {
+  id        Int       @id @default(autoincrement())
+  userId    Int
+  tokenHash String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+// Single-use, hashed, expiring tokens for "verify my email" links.
+model EmailVerificationToken {
+  id        Int       @id @default(autoincrement())
+  userId    Int
+  tokenHash String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
